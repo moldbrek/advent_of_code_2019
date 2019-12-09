@@ -17,12 +17,19 @@ actor Main
   new create(env: Env) =>
     try
       let file_name = env.args(1)?
+      let task = env.args(2)?.i64()?
       let path = FilePath(env.root as AmbientAuth, file_name)?
       var sum: I64 = 0
       match OpenFile(path)
       | let file: File =>
         for line in file.lines() do
-          sum = sum + FuelCalc.requiredTotal(line.i64()?)
+          if task == 2 then
+            sum = sum + FuelCalc.requiredTotal(line.i64()?)
+          else
+            if task == 1 then
+              sum = sum + FuelCalc.required(line.i64()?)
+            end
+          end
         end
       else
         env.err.print("Error opening file '" + file_name + " '")
