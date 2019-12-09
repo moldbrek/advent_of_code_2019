@@ -30,15 +30,8 @@ actor Main
 
     let a_orbits = getOrbitArray(a, orbitMap)
     let b_orbits = getOrbitArray(b, orbitMap)
-    var equal_orbits: USize = 0
     while a_orbits.size() > 0 do
-      try
-        if a_orbits.pop()? is b_orbits.pop()? then
-          equal_orbits = equal_orbits + 1
-        else
-          break
-        end
-      else
+      if not (try a_orbits.pop()? is b_orbits.pop()? else true end) then
         break
       end
     end
